@@ -1,4 +1,4 @@
-const routes =  [
+const routes = [
   {
     path: '/user',
     component: '../layouts/UserLayout',
@@ -6,7 +6,7 @@ const routes =  [
       {
         name: 'login',
         path: '/user/login',
-        component: './user/login',
+        component: './user/Sigin',
       },
     ],
   },

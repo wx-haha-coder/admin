@@ -1,0 +1,24 @@
+@import '~antd/es/style/themes/default.less';
+
+.wrap {
+  width: 360px;
+  margin: 0 auto;
+
+  :global {
+    .ant-input-affix-wrapper-focused {
+      .anticon {
+        color: @primary-color;
+      }
+    }
+    .ant-tabs .ant-tabs-bar {
+      margin-bottom: 24px;
+      text-align: center;
+      border-bottom: 0;
+    }
+  }
+}
+
+.prefixIcon {
+  color: @disabled-color;
+  font-size: @font-size-base;
+}

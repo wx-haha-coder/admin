@@ -40,9 +40,8 @@ class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayout
     const queryString = stringify({
       redirect: window.location.href,
     });
-
     if ((!isLogin && loading) || !isReady) {
-      return <PageLoading />;
+      return <PageLoading tip="Admin" />;
     }
     if (!isLogin && window.location.pathname !== '/user/login') {
       return <Redirect to={`/user/login?${queryString}`} />;

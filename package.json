@@ -20,7 +20,7 @@
     "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
     "prettier": "prettier -c --write \"**/*\"",
     "start": "umi dev",
-    "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none umi dev",
+    "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none UMI_UI=none PORT=9797 umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
     "start:no-ui": "cross-env UMI_UI=none umi dev",
     "start:pre": "cross-env REACT_APP_ENV=pre umi dev",
