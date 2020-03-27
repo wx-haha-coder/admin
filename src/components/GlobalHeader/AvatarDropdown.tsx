@@ -1,5 +1,10 @@
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
+import {
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons';
+import { Avatar, Menu, Spin, Modal } from 'antd';
 import { ClickParam } from 'antd/es/menu';
 import React from 'react';
 import { history, ConnectProps, connect } from 'umi';
@@ -17,21 +22,26 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
   onMenuClick = (event: ClickParam) => {
     const { key } = event;
     if (key === 'logout') {
-      const { dispatch } = this.props;
-      if (dispatch) {
-        dispatch({
-          type: 'login/logout',
-        });
-      }
+      Modal.confirm({
+        title: '确认要退出？',
+        icon: <ExclamationCircleOutlined />,
+        onOk: () => {
+          const { dispatch } = this.props;
+          if (dispatch) {
+            dispatch({
+              type: 'login/logout',
+            });
+          }
+        },
+      });
       return;
     }
-
     switch (key) {
       case 'index':
         history.push('/account');
         return;
       default:
-        history.push(`/account/${key}`);
+        history.push(`/account?tab=${key}`);
     }
   };
 

@@ -96,8 +96,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   return (
     <ProLayout
-      className="default-content-wrap"
-      // contentStyle={{ flex: 1 }}
+      className="dm-default-content-wrap"
       fixedHeader
       logo={logo}
       formatMessage={formatMessage}

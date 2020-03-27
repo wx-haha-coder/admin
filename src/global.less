@@ -54,10 +54,17 @@ ol {
 }
 
 // 逼不得已，使用这个方法
-.default-content-wrap {
+.dm-default-content-wrap {
   .ant-layout {
     > div:nth-child(2) {
       flex: 1;
     }
   }
+
+  &.ant-layout-content {
+    position: relative;
+    margin: 24px;
+    transition: all 0.2s;
+  }
 }
+

@@ -30,17 +30,15 @@ const routes = [
             component: './Welcome',
           },
           {
-            path: '/admin',
-            name: 'admin',
-            icon: 'crown',
-            component: './Admin',
+            path: '/system',
+            name: '系统',
+            icon: 'SettingOutlined',
             authority: ['admin'],
             routes: [
               {
-                path: '/admin/sub-page',
-                name: 'sub-page',
-                icon: 'smile',
-                component: './Welcome',
+                path: '/system/setting',
+                name: '设置',
+                component: './System/Setting',
                 authority: ['admin'],
               },
             ],
