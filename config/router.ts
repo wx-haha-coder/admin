@@ -46,10 +46,11 @@ const routes = [
             ],
           },
           {
-            name: 'list.table-list',
+            name: '个人中心',
             icon: 'table',
-            path: '/list',
-            component: './ListTableList',
+            path: '/account',
+            component: './Account/Index',
+            hideInMenu: true,
           },
           {
             component: './404',

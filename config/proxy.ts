@@ -8,7 +8,7 @@
 export default {
   dev: {
     '/api/': {
-      target: 'https://preview.pro.ant.design',
+      target: 'http://rap2.taobao.org:38080/app/mock/246367',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },

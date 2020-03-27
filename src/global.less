@@ -52,3 +52,12 @@ ol {
     min-height: 100vh;
   }
 }
+
+// 逼不得已，使用这个方法
+.default-content-wrap {
+  .ant-layout {
+    > div:nth-child(2) {
+      flex: 1;
+    }
+  }
+}

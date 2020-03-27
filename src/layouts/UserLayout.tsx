@@ -55,7 +55,11 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
           </div>
           {children}
         </div>
-        <div style={{ padding: 20, textAlign: 'center' }}>管理后台</div>
+        <div style={{ padding: 20, textAlign: 'center' }}>
+          <span role="img" aria-label="中" title="中">
+            --🀄️--
+          </span>
+        </div>
       </div>
     </HelmetProvider>
   );

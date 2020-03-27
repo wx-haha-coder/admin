@@ -49,10 +49,13 @@ const UserModel: UserModelType = {
       });
     },
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+      const resp = yield call(queryCurrent);
+      if (resp.code !== 0) {
+        return;
+      }
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: resp.data,
       });
     },
   },

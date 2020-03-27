@@ -16,20 +16,23 @@ export interface GlobalHeaderRightProps extends Partial<ConnectProps> {
 class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
   onMenuClick = (event: ClickParam) => {
     const { key } = event;
-
     if (key === 'logout') {
       const { dispatch } = this.props;
-
       if (dispatch) {
         dispatch({
           type: 'login/logout',
         });
       }
-
       return;
     }
 
-    history.push(`/account/${key}`);
+    switch (key) {
+      case 'index':
+        history.push('/account');
+        return;
+      default:
+        history.push(`/account/${key}`);
+    }
   };
 
   render(): React.ReactNode {
@@ -43,7 +46,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
     const menuHeaderDropdown = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         {menu && (
-          <Menu.Item key="center">
+          <Menu.Item key="index">
             <UserOutlined />
             个人中心
           </Menu.Item>
