@@ -85,7 +85,8 @@ const Model: LoginModelType = {
       }
     },
 
-    *authLogin({ payload }, { call, put }) {},
+    // *authLogin({ payload }, { call, put }) {
+    // },
   },
 
   reducers: {
