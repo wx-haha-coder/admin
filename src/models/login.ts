@@ -84,6 +84,8 @@ const Model: LoginModelType = {
         });
       }
     },
+
+    *authLogin({ payload }, { call, put }) {},
   },
 
   reducers: {

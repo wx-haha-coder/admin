@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
 import { connect } from 'umi';
 import { Form, Input, Button, Tabs, Row, Col } from 'antd';
-import { LockOutlined, UserOutlined, MobileOutlined, MailOutlined } from '@ant-design/icons';
+import {
+  LockOutlined,
+  UserOutlined,
+  MobileOutlined,
+  MailOutlined,
+  GithubOutlined,
+} from '@ant-design/icons';
+import { ConnectFixProps } from '@/types/router';
+import { getGithubUrl } from '@/utils/github';
+
 import css from './Sigin.less';
 
+interface PageProps extends ConnectFixProps {}
+
 const { TabPane } = Tabs;
+
 enum TabKey {
   NormalLogin = 'passLogin',
   PhoneLogin = 'phoneLogin',
 }
 
-const LoginPage = (props) => {
+const LoginPage: React.FC<PageProps> = (props) => {
   const [form] = Form.useForm();
   const [tabKey, setTabKey] = useState<string>(TabKey.NormalLogin);
   const { dispatch } = props;
@@ -22,10 +34,23 @@ const LoginPage = (props) => {
     },
   };
   const onFinish = (values: any) => {
-    dispatch({
-      type: 'login/login',
-      payload: { ...values, loginType: tabKey },
+    if (dispatch) {
+      dispatch({
+        type: 'login/login',
+        payload: { ...values, loginType: tabKey },
+      });
+    }
+  };
+
+  // github 登录
+  const handleGithubLogin = () => {
+    const redirectUrl = 'http://cms.dm.cc/user/auth-login';
+    const clientId = 'c858854fd312550afb81';
+    const url = getGithubUrl({
+      redirect_uri: encodeURIComponent(redirectUrl),
+      client_id: clientId,
     });
+    window.open(url);
   };
 
   return (
@@ -98,6 +123,10 @@ const LoginPage = (props) => {
           </Button>
         </Form.Item>
       </Form>
+      <div className={css.other}>
+        其他登录方式
+        <GithubOutlined onClick={handleGithubLogin} />
+      </div>
     </div>
   );
 };

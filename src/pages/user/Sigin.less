@@ -31,3 +31,23 @@
   width: 100px;
   cursor: pointer;
 }
+
+.other {
+  margin-top: 25px;
+  line-height: 22px;
+  text-align: left;
+
+  :global {
+    .anticon {
+      margin-left: 12px;
+      color: #9a9a9a;
+      font-size: 24px;
+      vertical-align: middle;
+      transition: all 0.2s;
+      &:hover {
+        color: #777;
+        cursor: pointer;
+      }
+    }
+  }
+}

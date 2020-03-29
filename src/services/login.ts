@@ -7,6 +7,11 @@ export interface LoginParamsType {
   captcha: string;
 }
 
+export interface AuthLoginParamsType {
+  origin: string;
+  code: string;
+}
+
 export async function accountLogin(params: LoginParamsType) {
   return request('/api/login', {
     method: 'POST',
@@ -21,5 +26,18 @@ export async function accountLogout() {
 }
 
 export async function getCaptcha(mobile: string) {
-  return request(`/api/login/captcha?mobile=${mobile}`);
+  return request(`/api/captcha?mobile=${mobile}`);
+}
+
+/**
+ * github 第三方登录
+ * @param data
+ * @param {string} data.origin - 登录源，github。。。
+ * @param {string} data.code -
+ */
+export async function githubAuthLogin(data: AuthLoginParamsType) {
+  return request('/api/login/auth', {
+    method: 'POST',
+    data,
+  });
 }

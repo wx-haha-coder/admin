@@ -4,9 +4,19 @@ const routes = [
     component: '../layouts/UserLayout',
     routes: [
       {
+        name: '',
+        path: '/user',
+        redirect: '/user/login',
+      },
+      {
         name: 'login',
         path: '/user/login',
         component: './user/Sigin',
+      },
+      {
+        name: 'login',
+        path: '/user/auth-login',
+        component: './user/AuthLogin',
       },
     ],
   },
@@ -33,13 +43,17 @@ const routes = [
             path: '/system',
             name: '系统',
             icon: 'SettingOutlined',
-            authority: ['admin'],
+            // authority: ['admin'],
             routes: [
               {
                 path: '/system/setting',
                 name: '设置',
                 component: './System/Setting',
-                authority: ['admin'],
+              },
+              {
+                path: '/system/users',
+                name: '用户管理',
+                component: './Admin/Users',
               },
             ],
           },
