@@ -12,15 +12,17 @@ const AuthLogin: React.FC<PageProps> = (props) => {
   } = props;
 
   useEffect(() => {
+    if (!query.code) {
+      notification.error({
+        message: '登录失败',
+        description: '无法获取到参数',
+      });
+      history.replace('/user/login');
+    }
     return () => {};
   }, []);
 
   if (!query.code) {
-    notification.error({
-      message: '登录失败',
-      description: '无法获取到参数',
-    });
-    history.replace('/user/login');
     return null;
   }
   return <div className={css.wrap}>第三番登录</div>;

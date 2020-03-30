@@ -11,11 +11,17 @@ const routes = [
       {
         name: 'login',
         path: '/user/login',
-        component: './user/Sigin',
+        component: './user/Login',
       },
+    ],
+  },
+  {
+    path: '/oauth',
+    component: '../layouts/BlankLayout',
+    routes: [
       {
-        name: 'login',
-        path: '/user/auth-login',
+        name: 'oauthLogin',
+        path: '/oauth/login',
         component: './user/AuthLogin',
       },
     ],

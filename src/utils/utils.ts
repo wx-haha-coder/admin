@@ -63,3 +63,7 @@ export const getRouteAuthority = (path: string, routeData: Route[]) => {
   });
   return authorities;
 };
+
+export const getLocalPath: () => string = () => {
+  return window.location.origin;
+};
