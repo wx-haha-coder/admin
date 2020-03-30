@@ -1,7 +1,7 @@
 import { stringify } from 'querystring';
 import { history, Reducer, Effect } from 'umi';
 
-import { accountLogin, accountLogout } from '@/services/login';
+import { accountLogin, accountLogout, oAuthLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
@@ -18,6 +18,7 @@ export interface LoginModelType {
   effects: {
     login: Effect;
     logout: Effect;
+    oAuthLogin: Effect;
   };
   reducers: {
     changeLoginStatus: Reducer<StateType>;
@@ -85,8 +86,13 @@ const Model: LoginModelType = {
       }
     },
 
-    // *authLogin({ payload }, { call, put }) {
-    // },
+    *oAuthLogin({ payload }, { call, put }) {
+      const resp = yield call(oAuthLogin, payload);
+      if (resp.code !== 0) {
+        return;
+      }
+      console.log(resp);
+    },
   },
 
   reducers: {

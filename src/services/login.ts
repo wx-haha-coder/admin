@@ -33,10 +33,10 @@ export async function getCaptcha(mobile: string) {
  * github 第三方登录
  * @param data
  * @param {string} data.origin - 登录源，github。。。
- * @param {string} data.code -
+ * @param {string} data.code - github返回的code
  */
-export async function githubAuthLogin(data: AuthLoginParamsType) {
-  return request('/api/login/auth', {
+export async function oAuthLogin(data: AuthLoginParamsType): Promise<any> {
+  return request('/api/user/oauth', {
     method: 'POST',
     data,
   });

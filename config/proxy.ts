@@ -8,7 +8,8 @@
 export default {
   dev: {
     '/api/': {
-      target: 'http://rap2.taobao.org:38080/app/mock/246367',
+      // target: 'http://rap2.taobao.org:38080/app/mock/246367',
+      target: 'http://serve.dm.cc',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },

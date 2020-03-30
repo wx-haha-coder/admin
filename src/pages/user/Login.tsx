@@ -11,7 +11,7 @@ import {
 import { ConnectFixProps } from '@/types/router';
 import { getGithubUrl } from '@/utils/github';
 
-import css from './Sigin.less';
+import css from './Login.less';
 
 interface PageProps extends ConnectFixProps {}
 
@@ -44,7 +44,7 @@ const LoginPage: React.FC<PageProps> = (props) => {
 
   // github 登录
   const handleGithubLogin = () => {
-    const redirectUrl = 'http://cms.dm.cc/user/auth-login';
+    const redirectUrl = `${window.location.origin}/auth/login`;
     const clientId = 'c858854fd312550afb81';
     const url = getGithubUrl({
       redirect_uri: encodeURIComponent(redirectUrl),
