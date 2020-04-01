@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Form, Input, Button, Tabs, Row, Col } from 'antd';
+import { Form, Input, Button, Tabs, Row, Col, Spin } from 'antd';
 import {
   LockOutlined,
   UserOutlined,
@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import { ConnectFixProps } from '@/types/router';
 import { getGithubUrl } from '@/utils/github';
+import { getCaptcha } from '@/services/login';
 
 import css from './Login.less';
 
@@ -25,6 +26,8 @@ enum TabKey {
 const LoginPage: React.FC<PageProps> = (props) => {
   const [form] = Form.useForm();
   const [tabKey, setTabKey] = useState<string>(TabKey.NormalLogin);
+  const [captchaImg, setCaptchImg] = useState<string>();
+
   const { dispatch } = props;
   const tabProps = {
     animated: false,
@@ -33,11 +36,25 @@ const LoginPage: React.FC<PageProps> = (props) => {
       setTabKey(key);
     },
   };
+  // 刷新验证码
+  const handleFreshCaptcha = () => {
+    getCaptcha().then((resp) => {
+      if (resp.code === 0) {
+        setCaptchImg(resp.data.img);
+      }
+    });
+  };
+
   const onFinish = (values: any) => {
     if (dispatch) {
       dispatch({
         type: 'login/login',
         payload: { ...values, loginType: tabKey },
+        callback: (success: boolean) => {
+          if (!success) {
+            handleFreshCaptcha();
+          }
+        },
       });
     }
   };
@@ -52,6 +69,10 @@ const LoginPage: React.FC<PageProps> = (props) => {
     });
     window.open(url);
   };
+
+  useEffect(() => {
+    handleFreshCaptcha();
+  }, []);
 
   return (
     <div className={css.wrap}>
@@ -72,7 +93,7 @@ const LoginPage: React.FC<PageProps> = (props) => {
                 prefix={<LockOutlined className={css.prefixIcon} />}
               />
             </Form.Item>
-            <Form.Item name="captcha" rules={[{ required: true, message: '请填写图片验证码' }]}>
+            <Form.Item name="captchaCode" rules={[{ required: true, message: '请填写图片验证码' }]}>
               <Row gutter={8}>
                 <Col span={16}>
                   <Input
@@ -82,11 +103,16 @@ const LoginPage: React.FC<PageProps> = (props) => {
                   />
                 </Col>
                 <Col span={8} className={css.captchaImgBox}>
-                  <img
-                    src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
-                    alt="code"
-                    className={css.captchaImg}
-                  />
+                  {captchaImg ? (
+                    <img
+                      src={captchaImg}
+                      alt="code"
+                      className={css.captchaImg}
+                      onClick={handleFreshCaptcha}
+                    />
+                  ) : (
+                    <Spin />
+                  )}
                 </Col>
               </Row>
             </Form.Item>

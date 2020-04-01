@@ -4,12 +4,18 @@ export interface LoginParamsType {
   login: string;
   password: string;
   mobile: string;
-  captcha: string;
+  captchaCode: string;
 }
 
 export interface AuthLoginParamsType {
   origin: string;
   code: string;
+}
+
+export interface CaptchaParamsType {
+  type: string;
+  width: number;
+  height: number;
 }
 
 export async function accountLogin(params: LoginParamsType) {
@@ -25,10 +31,6 @@ export async function accountLogout() {
   });
 }
 
-export async function getCaptcha(mobile: string) {
-  return request(`/api/captcha?mobile=${mobile}`);
-}
-
 /**
  * github 第三方登录
  * @param data
@@ -39,5 +41,19 @@ export async function oAuthLogin(data: AuthLoginParamsType): Promise<any> {
   return request('/api/user/oauth', {
     method: 'POST',
     data,
+  });
+}
+
+/**
+ * 获取图片验证码
+ * @param data
+ * @param {string} data.type - 类型
+ * @param {string} data.width - 长度
+ * @param {string} data.height - 高度
+ */
+export async function getCaptcha(params?: CaptchaParamsType): Promise<any> {
+  return request('/api/captcha', {
+    method: 'GET',
+    params,
   });
 }

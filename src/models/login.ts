@@ -33,39 +33,43 @@ const Model: LoginModelType = {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {
+    *login({ payload, callback }, { call, put }) {
       const resp = yield call(accountLogin, payload);
       if (resp.code !== 0) {
         message.error(resp.msg);
-        return;
-      }
-      const { data } = resp;
+      } else {
+        const { data } = resp;
 
-      // 被禁用
-      if (data.status !== '正常') {
-        message.error(resp.msg);
-        return;
-      }
-      yield put({
-        type: 'changeLoginStatus',
-        payload: data,
-      });
-      const urlParams = new URL(window.location.href);
-      const params = getPageQuery();
-      let { redirect } = params as { redirect: string };
-      if (redirect) {
-        const redirectUrlParams = new URL(redirect);
-        if (redirectUrlParams.origin === urlParams.origin) {
-          redirect = redirect.substr(urlParams.origin.length);
-          if (redirect.match(/^\/.*#/)) {
-            redirect = redirect.substr(redirect.indexOf('#') + 1);
-          }
-        } else {
-          window.location.href = '/';
+        // 被禁用
+        if (data.status !== '正常') {
+          message.error(resp.msg);
           return;
         }
+        yield put({
+          type: 'changeLoginStatus',
+          payload: data,
+        });
+        const urlParams = new URL(window.location.href);
+        const params = getPageQuery();
+        let { redirect } = params as { redirect: string };
+        if (redirect) {
+          const redirectUrlParams = new URL(redirect);
+          if (redirectUrlParams.origin === urlParams.origin) {
+            redirect = redirect.substr(urlParams.origin.length);
+            if (redirect.match(/^\/.*#/)) {
+              redirect = redirect.substr(redirect.indexOf('#') + 1);
+            }
+          } else {
+            window.location.href = '/';
+            return;
+          }
+        }
+        history.replace(redirect || '/');
       }
-      history.replace(redirect || '/');
+
+      if(callback){
+        callback(resp.code === 0)
+      }
     },
 
     *logout(_, { call, put }) {
@@ -104,7 +108,7 @@ const Model: LoginModelType = {
   reducers: {
     changeLoginStatus(state, { payload }) {
       setAuthority(payload.authority || ['admin']);
-      localStorage.setItem("token", payload.token)
+      localStorage.setItem('token', payload.token);
       return {
         ...state,
         status: payload.status,

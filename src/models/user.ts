@@ -23,6 +23,7 @@ export interface CurrentUser {
   github_url: string;
   github_avatar: string;
   phone: string;
+  nickname: string;
 }
 
 export interface UserModelState {
@@ -46,7 +47,7 @@ const UserModel: UserModelType = {
   namespace: 'user',
 
   state: {
-    currentUser: {},
+    currentUser: undefined,
   },
 
   effects: {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Card, Form, Input, Avatar } from 'antd';
+import { Tabs, Card, Form, Input, Avatar, Button } from 'antd';
 import { connect, history } from 'umi';
 import { ConnectFixProps } from '@/types/router';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
+import css from './Index.less';
 
 interface PageProps extends ConnectFixProps {
   currentUser?: CurrentUser;
@@ -29,22 +30,32 @@ const Index: React.FC<PageProps> = (props) => {
     history.replace(`/account/${tab}`);
   };
 
+  // 修改用户信息
+  const handleEditUser = () => {};
+
   //
   const AccountData = () => {
     if (currentUser) {
       return (
-        <div>
-          <p>{currentUser.name}</p>
-          <p>{currentUser.email}</p>
-          <p>{currentUser.phone}</p>
+        <div className={css.userWrap}>
+          <p>姓名：{currentUser.name}</p>
+          <p>昵称：{currentUser.nickname}</p>
+          <p>邮箱：{currentUser.email}</p>
+          <p>电话：{currentUser.phone}</p>
           <p>
+            头像：
             <Avatar src={currentUser.avatar} />
           </p>
-          <p>{currentUser.name}</p>
-          <p>{currentUser.gender}</p>
-          <p>{currentUser.github_name}</p>
+          <p>性别：{currentUser.gender}</p>
+          <p>Github：{currentUser.github_name}</p>
           <p>{currentUser.github_url}</p>
           <p>{currentUser.github_avatar}</p>
+
+          <div className={css.editBtn}>
+            <Button type="link" onClick={handleEditUser}>
+              修改
+            </Button>
+          </div>
         </div>
       );
     }
