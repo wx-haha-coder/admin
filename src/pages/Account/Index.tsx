@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Card } from 'antd';
+import { Tabs, Card, Form, Input, Avatar } from 'antd';
 import { connect, history } from 'umi';
 import { ConnectFixProps } from '@/types/router';
+import { ConnectState } from '@/models/connect';
+import { CurrentUser } from '@/models/user';
 
-interface PageProps extends ConnectFixProps {}
+interface PageProps extends ConnectFixProps {
+  currentUser?: CurrentUser;
+}
 
 const { TabPane } = Tabs;
 
 const Index: React.FC<PageProps> = (props) => {
   const {
     location: { query },
+    currentUser,
   } = props;
 
   const [activeKey, setActiveKey] = useState<string>();
@@ -24,8 +29,30 @@ const Index: React.FC<PageProps> = (props) => {
     history.replace(`/account/${tab}`);
   };
 
+  //
+  const AccountData = () => {
+    if (currentUser) {
+      return (
+        <div>
+          <p>{currentUser.name}</p>
+          <p>{currentUser.email}</p>
+          <p>{currentUser.phone}</p>
+          <p>
+            <Avatar src={currentUser.avatar} />
+          </p>
+          <p>{currentUser.name}</p>
+          <p>{currentUser.gender}</p>
+          <p>{currentUser.github_name}</p>
+          <p>{currentUser.github_url}</p>
+          <p>{currentUser.github_avatar}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <Card>
+    <Card style={{ margin: 20 }}>
       <Tabs
         tabPosition="left"
         activeKey={activeKey || 'index'}
@@ -33,7 +60,7 @@ const Index: React.FC<PageProps> = (props) => {
         onChange={handleChangeTab}
       >
         <TabPane tab="个人信息" key="index">
-          个人信息
+          <AccountData />
         </TabPane>
         <TabPane tab="关联设置" key="settings">
           关联设置
@@ -43,4 +70,7 @@ const Index: React.FC<PageProps> = (props) => {
   );
 };
 
-export default connect()(Index);
+const mapStateProps = ({ user }: ConnectState) => ({
+  currentUser: user.currentUser,
+});
+export default connect(mapStateProps)(Index);

@@ -4,6 +4,8 @@ import { queryCurrent, query as queryUsers } from '@/services/user';
 
 export interface CurrentUser {
   avatar?: string;
+  login: string;
+  email: string;
   name?: string;
   title?: string;
   group?: string;
@@ -14,6 +16,13 @@ export interface CurrentUser {
   }[];
   id?: string;
   unreadCount?: number;
+  qq: string;
+  wechat: string;
+  gender: string;
+  github_name: string;
+  github_url: string;
+  github_avatar: string;
+  phone: string;
 }
 
 export interface UserModelState {
@@ -48,7 +57,7 @@ const UserModel: UserModelType = {
         payload: response,
       });
     },
-    *fetchCurrent(_, { call, put}) {
+    *fetchCurrent(_, { call, put }) {
       const resp = yield call(queryCurrent);
       if (resp.code !== 0) {
         return;
