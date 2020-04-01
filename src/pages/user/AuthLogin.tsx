@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { notification } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { notification, Button } from 'antd';
 import { history, connect } from 'umi';
 import { ConnectFixProps } from '@/types/router';
 import css from './AuthLogin.less';
@@ -11,17 +11,20 @@ const AuthLogin: React.FC<PageProps> = (props) => {
     location: { query },
     dispatch,
   } = props;
-  const hasCode = !!query.code;
-
-  useEffect(() => {
-    if (!hasCode) {
-      notification.error({
-        message: '登录失败',
-        description: '无法获取到参数',
-      });
-      history.replace('/user/login');
-      return;
-    }
+  const [userData, setUserData] = useState();
+  // useEffect(() => {
+  //   if (!hasCode) {
+  //     notification.error({
+  //       message: '登录失败',
+  //       description: '无法获取到参数',
+  //     });
+  //     history.replace('/user/login');
+  //   }
+  // }, []);
+  // if (!hasCode) {
+  //   return null;
+  // }
+  const handleLogin = () => {
     if (dispatch) {
       dispatch({
         type: 'login/oAuthLogin',
@@ -29,16 +32,20 @@ const AuthLogin: React.FC<PageProps> = (props) => {
           origin: 'github',
           code: query.code,
         },
-        callback: () => {},
+        callback: (data) => {
+          setUserData(data)
+        },
       });
     }
-  }, []);
+  };
 
-  if (!hasCode) {
-    return null;
-  }
-
-  return <div className={css.wrap}>第三番登录</div>;
+  return (
+    <div className={css.wrap}>
+      <p>{query.code}</p>
+      <div>{JSON.stringify(userData || {})}</div>
+      <Button onClick={handleLogin}>登录</Button>
+    </div>
+  );
 };
 
 export default connect()(AuthLogin);

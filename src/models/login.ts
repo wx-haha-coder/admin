@@ -42,7 +42,7 @@ const Model: LoginModelType = {
       const { data } = resp;
 
       // 被禁用
-      if (data.status !== 1) {
+      if (data.status !== '正常') {
         message.error(resp.msg);
         return;
       }
@@ -86,18 +86,25 @@ const Model: LoginModelType = {
       }
     },
 
-    *oAuthLogin({ payload }, { call, put }) {
+    *oAuthLogin({ payload, callback }, { call, put, dispatch }) {
       const resp = yield call(oAuthLogin, payload);
       if (resp.code !== 0) {
         return;
       }
-      console.log(resp);
+      if (callback) {
+        callback(resp.data);
+      }
+      yield dispatch({
+        type: 'user/saveCurrentUser',
+        payload: resp.data,
+      });
     },
   },
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.authority);
+      setAuthority(payload.authority || ['admin']);
+      localStorage.setItem("token", payload.token)
       return {
         ...state,
         status: payload.status,
