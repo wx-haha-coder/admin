@@ -1,11 +1,11 @@
 import { Effect, Reducer } from 'umi';
 
-import { queryCurrent, query as queryUsers } from '@/services/user';
+import { queryCurrent, query as queryUsers, updateCurrent } from '@/services/user';
 
 export interface CurrentUser {
   avatar?: string;
-  login: string;
-  email: string;
+  login?: string;
+  email?: string;
   name?: string;
   title?: string;
   group?: string;
@@ -16,14 +16,14 @@ export interface CurrentUser {
   }[];
   id?: string;
   unreadCount?: number;
-  qq: string;
-  wechat: string;
-  gender: string;
-  github_name: string;
-  github_url: string;
-  github_avatar: string;
-  phone: string;
-  nickname: string;
+  qq?: string;
+  wechat?: string;
+  gender?: number;
+  github_name?: string;
+  github_url?: string;
+  github_avatar?: string;
+  phone?: string;
+  nickname?: string;
 }
 
 export interface UserModelState {
@@ -36,6 +36,7 @@ export interface UserModelType {
   effects: {
     fetch: Effect;
     fetchCurrent: Effect;
+    updateCurrent: Effect;
   };
   reducers: {
     saveCurrentUser: Reducer<UserModelState>;
@@ -47,7 +48,7 @@ const UserModel: UserModelType = {
   namespace: 'user',
 
   state: {
-    currentUser: undefined,
+    currentUser: {},
   },
 
   effects: {
@@ -68,6 +69,15 @@ const UserModel: UserModelType = {
         payload: resp.data,
       });
     },
+    *updateCurrent({ payload, callback }, { call }) {
+      const resp = yield call(updateCurrent, payload);
+      if (resp.code !== 0) {
+        return;
+      }
+      if (callback) {
+        callback();
+      }
+    },
   },
 
   reducers: {
@@ -77,12 +87,7 @@ const UserModel: UserModelType = {
         currentUser: action.payload || {},
       };
     },
-    changeNotifyCount(
-      state = {
-        currentUser: {},
-      },
-      action,
-    ) {
+    changeNotifyCount(state = { currentUser: {} }, action) {
       return {
         ...state,
         currentUser: {

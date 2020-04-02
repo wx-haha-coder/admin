@@ -53,4 +53,14 @@ const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
 });
 
+request.interceptors.response.use(async (response, options) => {
+  const data = await response.clone().json();
+  if (data.code !== 0) {
+    notification.error({
+      description: data.msg,
+      message: '请求失败',
+    });
+  }
+  return response;
+});
 export default request;

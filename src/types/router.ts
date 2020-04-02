@@ -1,4 +1,4 @@
-import { ConnectProps } from 'umi';
+import { ConnectProps, Dispatch } from 'umi';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import H from 'history';
 
@@ -9,4 +9,5 @@ interface Location extends H.Location {
 
 export interface ConnectFixProps extends ConnectProps {
   location: Location;
+  dispatch: Dispatch;
 }

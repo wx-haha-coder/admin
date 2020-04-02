@@ -19,6 +19,7 @@ export default defineConfig({
     hmr: true,
   },
   locale: {
+    // enable: false,
     // default zh-CN
     default: 'zh-CN',
     // default true, when it is true, will use `navigator.language` overwrite default
