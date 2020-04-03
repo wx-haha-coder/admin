@@ -67,7 +67,15 @@ const LoginPage: React.FC<PageProps> = (props) => {
       redirect_uri: encodeURIComponent(redirectUrl),
       client_id: clientId,
     });
-    window.open(url);
+    const strWindowFeatures = `
+        menubar=no,
+        location=no,
+        resizable=yes,
+        scrollbars=yes,
+        status=yes,
+        width=500,
+    `;
+    window.open(url, '登录', strWindowFeatures);
   };
 
   useEffect(() => {
