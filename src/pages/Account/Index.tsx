@@ -4,6 +4,7 @@ import { connect, history } from 'umi';
 import { ConnectFixProps } from '@/types/router';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
+import { fetchRegions } from '@/services/region';
 import css from './Index.less';
 
 interface PageProps extends ConnectFixProps {
@@ -60,6 +61,7 @@ const Index: React.FC<PageProps> = (props) => {
     setUserStatus(UserPageStatus.Read);
   };
 
+  // 提交数据
   const handleSubmit = (values: any) => {
     dispatch({
       type: 'user/updateCurrent',
@@ -72,6 +74,12 @@ const Index: React.FC<PageProps> = (props) => {
       },
     });
   };
+
+  // handleFetchRegion
+  const handleFetchRegion = () => {
+
+  };
+
   //
   const AccountData = () => {
     if (currentUser) {

@@ -35,11 +35,8 @@ const Model: LoginModelType = {
   effects: {
     *login({ payload, callback }, { call, put }) {
       const resp = yield call(accountLogin, payload);
-      if (resp.code !== 0) {
-        message.error(resp.msg);
-      } else {
+      if (resp.code === 0) {
         const { data } = resp;
-
         // 被禁用
         if (data.status !== '正常') {
           message.error(resp.msg);
@@ -66,9 +63,8 @@ const Model: LoginModelType = {
         }
         history.replace(redirect || '/');
       }
-
-      if(callback){
-        callback(resp.code === 0)
+      if (callback) {
+        callback(resp.code === 0);
       }
     },
 
@@ -90,7 +86,7 @@ const Model: LoginModelType = {
       }
     },
 
-    *oAuthLogin({ payload, callback }, { call, put, dispatch }) {
+    *oAuthLogin({ payload, callback }, { call, dispatch }) {
       const resp = yield call(oAuthLogin, payload);
       if (resp.code !== 0) {
         return;

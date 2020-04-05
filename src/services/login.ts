@@ -38,7 +38,7 @@ export async function accountLogout() {
  * @param {string} data.code - github返回的code
  */
 export async function oAuthLogin(data: AuthLoginParamsType): Promise<any> {
-  return request('/api/user/oauth', {
+  return request('/api/oauth', {
     method: 'POST',
     data,
   });

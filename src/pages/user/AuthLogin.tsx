@@ -11,7 +11,7 @@ const AuthLogin: React.FC<PageProps> = (props) => {
     location: { query },
     dispatch,
   } = props;
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState<any>();
   // useEffect(() => {
   //   if (!hasCode) {
   //     notification.error({
@@ -25,6 +25,7 @@ const AuthLogin: React.FC<PageProps> = (props) => {
   //   return null;
   // }
   const handleLogin = () => {
+    console.log('???aa')
     if (dispatch) {
       dispatch({
         type: 'login/oAuthLogin',

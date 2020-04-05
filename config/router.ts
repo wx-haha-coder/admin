@@ -46,6 +46,23 @@ const routes = [
             component: './Welcome',
           },
           {
+            path: '/base',
+            name: '基础信息',
+            icon: 'DatabaseOutlined',
+            routes: [
+              {
+                path: '/base/regions',
+                name: '地域信息',
+                component: './BaseData/Region.tsx',
+              },
+              {
+                path: '/base/demotable',
+                name: '表格',
+                component: './ListTableList',
+              },
+            ],
+          },
+          {
             path: '/system',
             name: '系统',
             icon: 'SettingOutlined',

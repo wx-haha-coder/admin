@@ -7,22 +7,6 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(
 
 export const isUrl = (path: string): boolean => reg.test(path);
 
-export const isAntDesignPro = (): boolean => {
-  if (ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site') {
-    return true;
-  }
-  return window.location.hostname === 'preview.pro.ant.design';
-};
-
-// 给官方演示站点用，用于关闭真实开发环境不需要使用的特性
-export const isAntDesignProOrDev = (): boolean => {
-  const { NODE_ENV } = process.env;
-  if (NODE_ENV === 'development') {
-    return true;
-  }
-  return isAntDesignPro();
-};
-
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
 /**
@@ -66,4 +50,17 @@ export const getRouteAuthority = (path: string, routeData: Route[]) => {
 
 export const getLocalPath: () => string = () => {
   return window.location.origin;
+};
+
+/**
+ * 移除表单中空属性，例如 null，undefined, ""
+ */
+export const removeEmptyAttr = (param: { [name: string]: any }) => {
+  const tmp = { ...param };
+  Object.keys(tmp).forEach((key) => {
+    if (param[key] == null || param[key] === '') {
+      delete tmp[key];
+    }
+  });
+  return tmp;
 };

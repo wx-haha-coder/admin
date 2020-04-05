@@ -9,18 +9,18 @@ export interface UpdateUserParamType {
 }
 
 export async function query(): Promise<any> {
-  return request('/api/users');
+  return request('/api/admin/users');
 }
 
 /**
  * 查询当前登录用户信息
  */
 export async function queryCurrent(): Promise<any> {
-  return request('/api/user');
+  return request('/api/admin/user');
 }
 
 export async function queryNotices(): Promise<any> {
-  return request('/api/notices');
+  return request('/api/admin/notices');
 }
 
 /**
@@ -33,7 +33,7 @@ export async function queryNotices(): Promise<any> {
  * @param {string} param.avatar - 头像
  */
 export async function updateCurrent(data: UpdateUserParamType): Promise<any> {
-  return request('/api/user', {
+  return request('/api/admin/user', {
     method: 'PUT',
     data,
   });

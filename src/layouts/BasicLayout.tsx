@@ -98,6 +98,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     <ProLayout
       className="dm-default-content-wrap"
       fixedHeader
+      fixSiderbar
       logo={logo}
       formatMessage={formatMessage}
       menuHeaderRender={(logoDom, titleDom) => (

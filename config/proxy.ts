@@ -13,6 +13,11 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
+    '/demo/': {
+      target: 'https://proapi.azurewebsites.net',
+      changeOrigin: true,
+      pathRewrite: { '^/demo': '' },
+    },
   },
   test: {
     '/api/': {
