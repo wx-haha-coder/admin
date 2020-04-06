@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Form, Input, Button, Tabs, Row, Col, Spin } from 'antd';
-import {
-  LockOutlined,
-  UserOutlined,
-  MobileOutlined,
-  MailOutlined,
-  GithubOutlined,
-} from '@ant-design/icons';
+import { LockOutlined, UserOutlined, MobileOutlined, MailOutlined } from '@ant-design/icons';
 import { ConnectFixProps } from '@/types/router';
-import { getGithubUrl } from '@/utils/github';
 import { getCaptcha } from '@/services/login';
+import ThirdLogin from './components/ThirdLogin';
 
 import css from './Login.less';
 
@@ -59,25 +53,6 @@ const LoginPage: React.FC<PageProps> = (props) => {
     }
   };
 
-  // github 登录
-  const handleGithubLogin = () => {
-    const redirectUrl = `${window.location.origin}/auth/login`;
-    const clientId = 'c858854fd312550afb81';
-    const url = getGithubUrl({
-      redirect_uri: encodeURIComponent(redirectUrl),
-      client_id: clientId,
-    });
-    const strWindowFeatures = `
-        menubar=no,
-        location=no,
-        resizable=yes,
-        scrollbars=yes,
-        status=yes,
-        width=500,
-    `;
-    window.open(url, '登录', strWindowFeatures);
-  };
-
   useEffect(() => {
     handleFreshCaptcha();
   }, []);
@@ -101,6 +76,7 @@ const LoginPage: React.FC<PageProps> = (props) => {
                 prefix={<LockOutlined className={css.prefixIcon} />}
               />
             </Form.Item>
+
             <Form.Item name="captchaCode" rules={[{ required: true, message: '请填写图片验证码' }]}>
               <Row gutter={8}>
                 <Col span={16}>
@@ -157,10 +133,7 @@ const LoginPage: React.FC<PageProps> = (props) => {
           </Button>
         </Form.Item>
       </Form>
-      <div className={css.other}>
-        其他登录方式
-        <GithubOutlined onClick={handleGithubLogin} />
-      </div>
+      <ThirdLogin />
     </div>
   );
 };

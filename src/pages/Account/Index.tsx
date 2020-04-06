@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, Card, Form, Input, Avatar, Button, Radio, Upload } from 'antd';
+import { Tabs, Card, Form, Input, Avatar, Button, Radio } from 'antd';
 import { connect, history } from 'umi';
 import { ConnectFixProps } from '@/types/router';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
-import { fetchRegions } from '@/services/region';
 import css from './Index.less';
 
 interface PageProps extends ConnectFixProps {
@@ -75,12 +74,6 @@ const Index: React.FC<PageProps> = (props) => {
     });
   };
 
-  // handleFetchRegion
-  const handleFetchRegion = () => {
-
-  };
-
-  //
   const AccountData = () => {
     if (currentUser) {
       return (
@@ -137,11 +130,7 @@ const Index: React.FC<PageProps> = (props) => {
         <Form.Item label="昵称" name="nickname" rules={[{ whitespace: false }]}>
           <Input placeholder="昵称" />
         </Form.Item>
-        <Form.Item
-          label="邮箱"
-          name="email"
-          rules={[{ required: true, type: 'email', message: '请填写邮箱' }]}
-        >
+        <Form.Item label="邮箱" name="email">
           <Input placeholder="email" disabled readOnly />
         </Form.Item>
         <Form.Item label="性别" name="gender">

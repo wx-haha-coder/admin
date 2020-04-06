@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { history } from "umi";
-import { Card, Form, Select, Row, Col, Button } from 'antd';
+import { history } from 'umi';
+import { Card, Form, Select, Row, Col, Button, Table } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { removeEmptyAttr } from '@/utils/utils';
 import { getRegions, getCountrys } from '@/services/region';
@@ -20,11 +20,20 @@ const Region: React.FC<{}> = () => {
   const colProps = { xs: 24, sm: 12, lg: 8, xxl: 6 };
   const gutter = { lg: 24, md: 16 };
   const [counutries, setCountry] = useState([]);
+  const [dataList, setDataList] = useState({
+    page: 1,
+    total: 0,
+    items: [],
+  });
 
   // 获取地区
   const getRegionData = () => {
     getRegions().then((resp) => {
       console.log(resp);
+      if (resp.code === 0) {
+        const { data } = resp;
+        setDataList(data);
+      }
     });
     getCountrys().then((resp) => {
       if (resp.code === 0) {
@@ -35,10 +44,63 @@ const Region: React.FC<{}> = () => {
   // 搜索
   const handleSearch = (values: FormValuesType) => {
     history.push({
-      pathname:'/base/regions',
-      query: removeEmptyAttr(values)
-    })
+      pathname: '/base/regions',
+      query: removeEmptyAttr(values),
+    });
   };
+
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: '界别',
+      dataIndex: 'level',
+      key: 'level',
+      render: (text: number) => {
+        if (text === 1) {
+          return '省';
+        }
+        if (text === 2) {
+          return '市';
+        }
+        if (text === 3) {
+          return '县城（区域）';
+        }
+        return '国家';
+      },
+    },
+    {
+      title: '名称',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: '编码',
+      dataIndex: 'code',
+      key: 'code',
+    },
+    {
+      title: '经纬度',
+      dataIndex: 'longitude',
+      key: 'longitude',
+      render: (text: any, record: any) => {
+        return (
+          <>
+            <span>{record.longitude}</span>
+            <span>{record.latitude}</span>
+          </>
+        );
+      },
+    },
+    {
+      title: '拼音',
+      dataIndex: 'pinyin',
+      key: 'pinyin',
+    },
+  ];
 
   useEffect(() => {
     getRegionData();
@@ -109,7 +171,9 @@ const Region: React.FC<{}> = () => {
       <Card style={{ marginBottom: 15 }}>
         <FilterForm />
       </Card>
-      <Card>biaoge</Card>
+      <Card>
+        <Table columns={columns} dataSource={dataList.items} rowKey="id" pagination={false} />
+      </Card>
     </PageHeaderWrapper>
   );
 };
