@@ -64,3 +64,10 @@ export const removeEmptyAttr = (param: { [name: string]: any }) => {
   });
   return tmp;
 };
+
+/**
+ * 解析query， a=2&b=3&c=4 => {a:2,b:3,c:4}
+ */
+export const queryParse = (search: string): { [name: string]: any } => {
+  return Object.fromEntries(new URLSearchParams(search));
+};

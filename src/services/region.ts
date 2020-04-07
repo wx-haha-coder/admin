@@ -13,8 +13,13 @@ export async function fetchRegions(): Promise<any> {
  * 获取地域信息
  * @param params
  * @param {string} code - 地区code
+ * @param {number} page - page
  */
-export async function getRegions(params?: any): Promise<any> {
+export interface GetRegionsType {
+  code?: string;
+  page?: number;
+}
+export async function getRegions(params?: GetRegionsType): Promise<any> {
   return request('/api/admin/region', {
     method: 'GET',
     params,
@@ -27,6 +32,18 @@ export async function getRegions(params?: any): Promise<any> {
  */
 export async function getCountrys(params?: any): Promise<any> {
   return request('/api/admin/region/country', {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 获取下级地区
+ * @param params
+ * @param {string} params.code - 上级地区code
+ */
+export async function getChildRegions(params?: GetRegionsType): Promise<any> {
+  return request('/api/admin/region/sub', {
     method: 'GET',
     params,
   });
